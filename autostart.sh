@@ -6,6 +6,7 @@
 picom -b
 fcitx &
 nm-applet &
+blueman-applet &
 slimbookbattery &
 light-locker &
 /bin/bash ~/.config/scripts/tap-to-click.sh &
