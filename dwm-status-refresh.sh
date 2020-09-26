@@ -4,9 +4,9 @@
 
 # This function parses /proc/net/dev file searching for a line containing $interface data.
 # Within that line, the first and ninth numbers after ':' are respectively the received and transmited bytes.
-function get_bytes {
+function get_bytes(){
 	# Find active network interface
-	interface=$(ip route get 8.8.8.8 2>/dev/null| awk '{print $5}')
+	interface=$(ip route get 8.8.8.8 2>/dev/null| awk 'NR==1{print $5}')
 	line=$(grep $interface /proc/net/dev | cut -d ':' -f 2 | awk '{print "received_bytes="$1, "transmitted_bytes="$9}')
 	eval $line
 	now=$(date +%s%N)
@@ -39,7 +39,7 @@ old_time=$now
 
 print_volume() {
 	volume="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
-    mute_indicator="$(amixer get Master | sed -n '$p' | cut -d] -f2 | cut -d'[' -f2)"
+    mute_indicator="$(amixer get Master | sed -n '$p' | cut -d] -f3 | cut -d'[' -f2)"
     if [ $mute_indicator = "off" -o $volume -le 1 ]
     then
         echo -e "ﱝMute"
@@ -68,7 +68,7 @@ get_time_until_charged() {
     then
         echo "$remaining_hour:$remaining_minute"
     else
-        if $(acpi -b | grep --quiet "100%")
+        if $(acpi -b | grep --quiet "Not charging")||$(acpi -b | grep --quiet "Full")
         then
             echo ""
         else
@@ -221,7 +221,7 @@ export IDENTIFIER="unicode"
 #. "$DIR/dwmbar-functions/dwm_date.sh"
 
 print_monitor_brightness(){
-    brightness=$(xbacklight | cut -d. -f1)
+    brightness=$(xbacklight -get)
     echo "$brightness"
 }
 

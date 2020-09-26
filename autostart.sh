@@ -7,6 +7,7 @@ picom -b
 fcitx &
 nm-applet &
 slimbookbattery &
+light-locker &
 /bin/bash ~/.config/scripts/tap-to-click.sh &
 #/bin/bash ~/.config/scripts/inverse-scroll.sh &
 #/bin/bash ~/.config/scripts/setxmodmap-colemak.sh &
