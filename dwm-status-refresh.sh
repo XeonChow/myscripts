@@ -62,8 +62,8 @@ print_temp(){
 
 get_time_until_charged() {
 
-    remaining_hour=$(acpi | cut -d, -f3 | cut -d: -f1 | cut -d" " -f2)
-    remaining_minute=$(acpi | cut -d, -f3 | cut -d: -f2 | cut -d: -f1)
+    remaining_hour=$(acpi |grep "Battery 0" | cut -d, -f3 | cut -d: -f1 | cut -d" " -f2)
+    remaining_minute=$(acpi |grep "Battery 0" | cut -d, -f3 | cut -d: -f2 | cut -d: -f1)
 	if $(acpi -b | grep --quiet Discharging)
     then
         echo "$remaining_hour:$remaining_minute"
